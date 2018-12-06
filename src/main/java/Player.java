@@ -1,5 +1,4 @@
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import me.jjfoley.gfx.GFX;
 
 /**

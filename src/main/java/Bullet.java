@@ -1,12 +1,7 @@
 import java.awt.Graphics2D;
-
 /**
- * 
- * bullet and its methods
- * 
+ * Bullet and its methods 
  * @author mahaawaisi
- *
- * 
  * 
  */
 
@@ -24,27 +19,19 @@ public class Bullet {
 	}
 
 	// new bullet from position of player
-
 	// processKey - delayed
 
 	public void draw(Graphics2D g) {
-
 		SpaceInvaderCreatures.drawBullet(g, x, y, w, h);
-
 		this.y -= 5;
-
 	}
 
 	public int getX() {
-
 		return this.x;
-
 	}
 
 	public int getY() {
-
 		return this.y;
-
 	}
 
 }

@@ -1,8 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import me.jjfoley.gfx.IntPoint;
-import me.jjfoley.gfx.TextBox;
 
 /**
  * Updates the window and starts and ends whole game
@@ -13,12 +10,10 @@ import me.jjfoley.gfx.TextBox;
 import me.jjfoley.gfx.GFX;
 
 public class GameRules extends GFX {
-
 	/**
 	 * 
 	 */
 	SpaceGame game;
-
 	/**
 	 * 
 	 */
@@ -31,7 +26,6 @@ public class GameRules extends GFX {
 	public GameRules() {
 		super(700, 500);
 		game = new SpaceGame();
-
 	}
 
 	/**
@@ -41,6 +35,7 @@ public class GameRules extends GFX {
 	 *                               between each update, but we don't actually care
 	 *                               here.
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	public void update(double secondsSinceLastUpdate) {
 		// Handle game-over and restart.
@@ -64,6 +59,7 @@ public class GameRules extends GFX {
 
 		// Move the player if we can:
 		boolean moved = true;
+		
 		if (left) {
 			moved = this.game.player.moveLeft();
 		} else if (right) {
@@ -121,17 +117,13 @@ public class GameRules extends GFX {
 
 	@Override
 	public void draw(Graphics2D g) {
-
 		// TODO Auto-generated method stub
 		game.draw(g);
-
 	}
 
 	public static void main(String[] args) {
-
 		GameRules game = new GameRules();
 		game.start();
-
 	}
 
 }
