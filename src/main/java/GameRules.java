@@ -22,6 +22,7 @@ public class GameRules extends GFX {
 	 * 
 	 */
 	static int score = 0;
+	int delay = 0;
 
 	public GameRules() {
 		super(700, 500);
@@ -30,7 +31,6 @@ public class GameRules extends GFX {
 
 	/**
 	 * We separate our "PlayFish" game logic update here.
-	 * 
 	 * @param secondsSinceLastUpdate - my GFX code can tell us how long it is
 	 *                               between each update, but we don't actually care
 	 *                               here.
@@ -42,6 +42,7 @@ public class GameRules extends GFX {
 		if (game.gameOver()) {
 			if (this.processClick() != null) {
 				this.game = new SpaceGame();
+				score = 0;
 			}
 			return;
 		}
@@ -66,14 +67,16 @@ public class GameRules extends GFX {
 			moved = this.game.player.moveRight();
 		}
 
+		delay -= 1;
 		// if the space bar is pressed
-		if (spaceBar) {
+		if (spaceBar && delay <= 0) {
 			// make bullet bool true
 			bulletBool = true;
 			// make a new bullet that starts at the middle position of the player
 			Bullet newBullet = new Bullet((10 + this.game.player.getX()), this.game.player.getY(), 2, 15);
 			// add that bullet to the list of bullets located in space game
 			this.game.bullets.add(newBullet);
+			this.delay = 15;
 
 		}
 
@@ -85,8 +88,8 @@ public class GameRules extends GFX {
 					// if the bullet is at the same y position as the alien and the x position of
 					// the bullet is in the range of
 					// the x position of the alien + 30 to account for its width
-					if (bullet.getY() == alien.getY()
-							&& (bullet.getX() > alien.getX() && bullet.getX() < alien.getX() + 30)) {
+					
+					if (bullet.getRectangle().intersects(alien.getRectangle())) {
 						this.game.deadAliens.add(alien);
 						// increment score by 100 every time you hit an alien
 						score += 100;

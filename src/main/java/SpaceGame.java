@@ -23,24 +23,23 @@ public class SpaceGame extends GFX {
 	ArrayList<Opponent> deadAliens = new ArrayList<>();
 	ArrayList<Bullet> bullets = new ArrayList<>();
 
-	// make the flipSwitch boolean equal to true at first so the aliens start by moving to the right
+	// make the flipSwitch boolean equal to true at first so the aliens start by
+	// moving to the right
 	static boolean flipSwitch = true;
 
 	// Space Game constructor
 	public SpaceGame() {
-		// start the count at 1
-		int space = 1;
-		// make this many opponents and space them so they are equally spaced by incrementing the counter
+		// make this many opponents and space them so they are equally spaced by
+		// incrementing the counter
 		for (int i = 0; i < 10; i++) {
-			Opponent alien = new Opponent(100 + space * 5, 100, 30, 30);
+			for (int j = 0; j < 5; j++) { 
+				//100 + space * 5
+			Opponent alien = new Opponent(60 * i, 50 * j, 30, 30);
 			// add the alien to the list of aliens
 			aliens.add(alien);
-			space += 10;
-
+			}
 		}
 	}
-
-	
 
 	/**
 	 * This method is how the GameRules app tells whether we're done.
@@ -71,7 +70,7 @@ public class SpaceGame extends GFX {
 		Rectangle2D centerText = new Rectangle2D.Double(550, 0, 100, 40);
 		score.setFontSize(20.0);
 		score.setColor(Color.white);
-	
+
 		score.centerInside(centerText);
 		score.draw(g);
 
@@ -86,13 +85,13 @@ public class SpaceGame extends GFX {
 
 		// draw the player
 		player.draw(g);
-		
+
 		// draw all aliens from the list
 		for (int i = 0; i < aliens.size(); i++) {
 			aliens.get(i).draw(g);
 
 		}
-		
+
 		// if the flipSwitch is true then move all aliens to the right
 		if (flipSwitch == true) {
 			for (Opponent alien : aliens) {
@@ -107,16 +106,19 @@ public class SpaceGame extends GFX {
 			}
 
 		}
-		// if the alien at the end is at the edge then make flipSwitch false - move to left
+		// if the alien at the end is at the edge then make flipSwitch false - move to
+		// left
 		if (aliens.size() != 0 && (aliens.get(aliens.size() - 1).getX()) >= 690) {
 			flipSwitch = false;
 		}
-		// if the alien at the beginning is at the edge then make flipSwitch true - move to right
+		// if the alien at the beginning is at the edge then make flipSwitch true - move
+		// to right
 		if (aliens.size() != 0 && aliens.get(0).getX() <= 10) {
 			flipSwitch = true;
 		}
 
-		// if the size of the aliens is not 0 and the last one or the first one hits the edge then move all the aliens down
+		// if the size of the aliens is not 0 and the last one or the first one hits the
+		// edge then move all the aliens down
 		if (aliens.size() != 0 && (aliens.get(aliens.size() - 1).getX() >= 690 || aliens.get(0).getX() <= 10)) {
 			for (Opponent alien : aliens) {
 				alien.moveDown();

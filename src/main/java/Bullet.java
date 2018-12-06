@@ -1,4 +1,5 @@
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 /**
  * Bullet and its methods 
  * @author mahaawaisi
@@ -32,6 +33,10 @@ public class Bullet {
 
 	public int getY() {
 		return this.y;
+	}
+	
+	public Rectangle2D getRectangle() {
+		return new Rectangle2D.Double(x,y,w,h);
 	}
 
 }

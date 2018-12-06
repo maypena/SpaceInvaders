@@ -1,5 +1,6 @@
 
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  * 
@@ -57,6 +58,10 @@ public class Opponent {
 
 	public int getY() {
 		return this.y;
+	}
+	
+	public Rectangle2D getRectangle() {
+		return new Rectangle2D.Double(x,y,w,h);
 	}
 
 }
