@@ -1,4 +1,6 @@
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
+
 import me.jjfoley.gfx.GFX;
 
 /**
@@ -75,6 +77,14 @@ public class Player extends GFX {
 	 */
 	public int getY() {
 		return this.y;
+	}
+	
+	/**
+	 * Gets the rectangle. 
+	 * @return the value of the rectangle.
+	 */
+	public Rectangle2D getRectangle() {
+		return new Rectangle2D.Double(x,y,w,h);
 	}
 
 }

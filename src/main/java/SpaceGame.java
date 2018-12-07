@@ -12,7 +12,7 @@ import me.jjfoley.gfx.TextBox;
 public class SpaceGame extends GFX {
 
 	// Our variables
-	Player player = new Player(350, 450, 20, 20); 	       // Creates the player.
+	static Player player = new Player(350, 450, 20, 20); 	       // Creates the player.
 	ArrayList<Bullet> bullets = new ArrayList<>();         // List of bullets.
 	static ArrayList<Opponent> aliens = new ArrayList<>(); // List of aliens.
 
@@ -20,8 +20,8 @@ public class SpaceGame extends GFX {
 	 * SpaceGame constructor.
 	 */
 	public SpaceGame() {
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; j < 4; j++) {
+		for (int i = 0; i < 10; i++) {    // Columns
+			for (int j = 0; j < 5; j++) { // Rows
 				Opponent alien = new Opponent(60 * i, 50 * j, 30, 30);
 				aliens.add(alien);
 			}

@@ -46,7 +46,7 @@ public class GameRules extends GFX {
 	public static boolean gameOver() {
 		if (SpaceGame.aliens.size() == 0) {
 			return true;
-		}
+		} 
 		return false;
 	}
 	
@@ -65,7 +65,7 @@ public class GameRules extends GFX {
 	@Override
 	public void update(double secondsSinceLastUpdate) {
 		// Handle game-over and restart.
-		if (gameOver()) {
+		if ( gameOver() ) {
 			if (this.processClick() != null) {
 				this.game = new SpaceGame();
 				score = 0;
@@ -124,6 +124,15 @@ public class GameRules extends GFX {
 						this.deadBullets.add(bullet);
 						score += 100;
 					}
+				}
+			}
+		}
+		
+		// End the game when aliens touch the player.
+		if (SpaceGame.aliens.size() > 0) {
+			for (Opponent alien : SpaceGame.aliens) {
+				if (SpaceGame.player.getRectangle().intersects(alien.getRectangle())) {
+					deadAliens.addAll(SpaceGame.aliens);
 				}
 			}
 		}

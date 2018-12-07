@@ -54,10 +54,10 @@ public class Opponent {
 	}
 	
 	/**
-	 * Moves aliens down.
+	 * Moves aliens down.s
 	 */
 	public void moveDown() {
-		this.y += 5;
+		this.y += 15;
 	}
 	
 	/**
