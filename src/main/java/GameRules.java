@@ -1,6 +1,12 @@
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import me.jjfoley.gfx.GFX;
 
 /**
@@ -39,6 +45,7 @@ public class GameRules extends GFX {
 		game.draw(g);
 	}
 	
+
 	/**
 	 * Ends the game. 
 	 * @return true if the player has won (or maybe lost?).
