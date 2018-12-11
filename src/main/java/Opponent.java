@@ -11,6 +11,7 @@ public class Opponent {
 	int y; 
 	int w; 
 	int h; 
+	boolean isFirstRow;
 
 	
 	/**
@@ -20,11 +21,12 @@ public class Opponent {
 	 * @param w - width of rectangle
 	 * @param h - height of rectangle
 	 */
-	public Opponent(int x, int y, int w, int h) {
+	public Opponent(int x, int y, int w, int h, boolean isFirstRow) {
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		this.isFirstRow = isFirstRow;
 	}
 
 	/**
@@ -75,6 +77,14 @@ public class Opponent {
 	 */
 	public int getY() {
 		return this.y;
+	}
+	
+	/**
+	 * Gets weather this alien is on the first row or not.
+	 * @return
+	 */
+	public boolean isFirstRow() {
+		return this.isFirstRow;
 	}
 	
 	/**

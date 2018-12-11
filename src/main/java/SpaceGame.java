@@ -28,7 +28,7 @@ public class SpaceGame extends GFX {
 	public SpaceGame() {
 		for (int i = 0; i < 10; i++) { // Columns
 			for (int j = 0; j < 5; j++) { // Rows
-				Opponent alien = new Opponent(60 * i, 50 * j, 30, 30);
+				Opponent alien = new Opponent(60 * i, 50 * j, 30, 30, j == 0 );
 				aliens.add(alien);
 			}
 		}
@@ -38,8 +38,9 @@ public class SpaceGame extends GFX {
 	 * Load background picture
 	 */
 	public void LoadImageExample() throws IOException {
-		background = ImageIO.read(new File("background.jpg"));
-
+		if (background == null) {
+			background = ImageIO.read(new File("background.jpg"));
+		}
 	}
 
 	/**

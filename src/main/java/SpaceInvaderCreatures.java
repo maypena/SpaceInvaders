@@ -17,8 +17,10 @@ public class SpaceInvaderCreatures {
 	 * 
 	 */
 	public static void LoadImageExample() throws IOException {
+		if (alien == null) {
 		alien = ImageIO.read(new File("alien.png"));
 		jj = ImageIO.read(new File("jj.png"));
+		}
 	}
 
 	/**

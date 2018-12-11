@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import me.jjfoley.gfx.GFX;
 
 /**
- * This class holds the logic of the game. 
- * Here is where the game starts, gets updated and ends.
+ * This class holds the logic of the game. Here is where the game starts, gets
+ * updated and ends.
  */
 public class GameRules extends GFX {
-	
+
 	// Our variables
-	int delay; 					// Delay variable so that bullet doesn't become a laser.
-	int delay2; 					// Delay variable so that bullet doesn't become a laser.
-	SpaceGame game; 			// Game made from the SpaceGame class.
-	static int score; 			// Score variable.
-	static boolean bulletBool;  // Boolean that alerts other classes when the spacebar is pressed.
-	static boolean alienBulletBool;  // Boolean that is true as long as the game is running (aliens keep shooting).
-	static boolean moveSwitch;  	 // Movement switch.
-	ArrayList<Bullet> deadBullets = new ArrayList<>();  // List of bullets to delete.
+	int delay; // Delay variable so that bullet doesn't become a laser.
+	int delay2; // Delay variable so that bullet doesn't become a laser.
+	SpaceGame game; // Game made from the SpaceGame class.
+	static int score; // Score variable.
+	static boolean bulletBool; // Boolean that alerts other classes when the spacebar is pressed.
+	static boolean alienBulletBool; // Boolean that is true as long as the game is running (aliens keep shooting).
+	static boolean moveSwitch; // Movement switch.
+	ArrayList<Bullet> deadBullets = new ArrayList<>(); // List of bullets to delete.
 	ArrayList<Opponent> deadAliens = new ArrayList<>(); // List of aliens to delete.
-	
 
 	/**
 	 * Initializes variables.
@@ -33,7 +32,7 @@ public class GameRules extends GFX {
 		delay = 0;
 		delay2 = 0;
 	}
-	
+
 	/**
 	 * Draws everything.
 	 */
@@ -41,21 +40,21 @@ public class GameRules extends GFX {
 	public void draw(Graphics2D g) {
 		game.draw(g);
 	}
-	
 
 	/**
-	 * Ends the game. 
+	 * Ends the game.
+	 * 
 	 * @return true if the player has won (or maybe lost?).
 	 */
 	public static boolean gameOver() {
 		if (SpaceGame.aliens.size() == 0) {
 			return true;
-		} 
+		}
 		return false;
 	}
-	
+
 	/*
-	 * Starts the game 
+	 * Starts the game
 	 */
 	public static void main(String[] args) {
 		GameRules game = new GameRules();
@@ -64,12 +63,13 @@ public class GameRules extends GFX {
 
 	/**
 	 * This is where the game gets updated and the where logic lives.
+	 * 
 	 * @param secondsSinceLastUpdate
 	 */
 	@Override
 	public void update(double secondsSinceLastUpdate) {
 		// Handle game-over and restart.
-		if ( gameOver() ) {
+		if (gameOver()) {
 			if (this.processClick() != null) {
 				this.game = new SpaceGame();
 				score = 0;
@@ -81,15 +81,17 @@ public class GameRules extends GFX {
 		boolean left = this.isKeyDown(KeyEvent.VK_A) || this.isKeyDown(KeyEvent.VK_LEFT);
 		boolean right = this.isKeyDown(KeyEvent.VK_D) || this.isKeyDown(KeyEvent.VK_RIGHT);
 		boolean spaceBar = this.processKey(KeyEvent.VK_SPACE);
-		
+
 		// Move the aliens.
 		if (moveSwitch == true) {
 			for (Opponent alien : SpaceGame.aliens) {
-				alien.moveRight(); }
+				alien.moveRight();
+			}
 		}
 		if (moveSwitch == false) {
 			for (Opponent alien : SpaceGame.aliens) {
-				alien.moveLeft(); }
+				alien.moveLeft();
+			}
 		}
 		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX()) >= 690) {
 			moveSwitch = false;
@@ -97,38 +99,42 @@ public class GameRules extends GFX {
 		if (SpaceGame.aliens.size() != 0 && SpaceGame.aliens.get(0).getX() <= 10) {
 			moveSwitch = true;
 		}
-		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX() >= 690 || SpaceGame.aliens.get(0).getX() <= 10)) {
+		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX() >= 690
+				|| SpaceGame.aliens.get(0).getX() <= 10)) {
 			for (Opponent alien : SpaceGame.aliens) {
-				alien.moveDown(); }
+				alien.moveDown();
+			}
 		}
 
 		// Move the player if we can
 		if (left) {
-			this.game.player.moveLeft();
+			SpaceGame.player.moveLeft();
 		} else if (right) {
-			this.game.player.moveRight();
+			SpaceGame.player.moveRight();
 		}
 
 		// Handle bullet logic.
 		delay -= 1;
 		if (spaceBar && delay <= 0) {
 			bulletBool = true;
-			Bullet newBullet = new Bullet((10 + this.game.player.getX()), this.game.player.getY(), 2, 15);
+			Bullet newBullet = new Bullet((10 + SpaceGame.player.getX()), SpaceGame.player.getY(), 2, 15);
 			this.game.bullets.add(newBullet);
 			this.delay = 15;
 
 		}
-		
+
 		// Handle alien bullet logic.
 		delay2 -= 1;
 		if (gameOver() != true && delay2 <= 0) {
-			for (int s = 0; s < 46; s += 10) {
-				int alienX = SpaceGame.aliens.get(s).getX();
-				int alienY = SpaceGame.aliens.get(s).getY();
-				alienBulletBool = true;
-				AlienBullet newAlienBullet = new AlienBullet(alienX, alienY, 2, 15);
-				this.game.alienBullets.add(newAlienBullet);
-				this.delay2 = 150;
+			for (Opponent alien : SpaceGame.aliens) {
+				if (alien.isFirstRow()) {
+					int alienX = alien.getX();
+					int alienY = alien.getY();
+					alienBulletBool = true;
+					AlienBullet newAlienBullet = new AlienBullet(alienX, alienY, 2, 15);
+					this.game.alienBullets.add(newAlienBullet);
+					this.delay2 = 150;
+				}
 			}
 		}
 
@@ -144,7 +150,7 @@ public class GameRules extends GFX {
 				}
 			}
 		}
-		
+
 		// End the game when aliens touch the player.
 		if (SpaceGame.aliens.size() > 0) {
 			for (Opponent alien : SpaceGame.aliens) {
@@ -153,7 +159,7 @@ public class GameRules extends GFX {
 				}
 			}
 		}
-		
+
 		// End the game when alien bullet touches player.
 		if (SpaceGame.aliens.size() > 0) {
 			for (AlienBullet alienBullet : this.game.alienBullets) {
@@ -162,7 +168,7 @@ public class GameRules extends GFX {
 				}
 			}
 		}
-		
+
 		// Remove aliens.
 		for (Opponent alien : this.deadAliens) {
 			SpaceGame.aliens.remove(alien);
