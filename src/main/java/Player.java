@@ -1,6 +1,5 @@
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
-
 import me.jjfoley.gfx.GFX;
 
 /**

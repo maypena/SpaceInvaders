@@ -3,7 +3,6 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -20,7 +19,6 @@ public class SpaceInvaderCreatures {
 	public static void LoadImageExample() throws IOException {
 		alien = ImageIO.read(new File("alien.png"));
 		jj = ImageIO.read(new File("jj.png"));
-		
 	}
 
 	/**

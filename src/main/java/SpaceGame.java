@@ -5,24 +5,22 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
-
 import me.jjfoley.gfx.GFX;
 import me.jjfoley.gfx.TextBox;
 
 /**
  * This class draws and undraws everything on screen.
- * 
  * @author mahaawaisi
  */
 public class SpaceGame extends GFX {
-
 	// Our variables
-	static Player player = new Player(350, 450, 20, 20); // Creates the player.
-	ArrayList<Bullet> bullets = new ArrayList<>(); // List of bullets.
-	static ArrayList<Opponent> aliens = new ArrayList<>(); // List of aliens.
 	BufferedImage background; // background image
+	ArrayList<Bullet> bullets = new ArrayList<>(); // List of bullets.
+	static Player player = new Player(350, 450, 20, 20); // Creates the player.
+	static ArrayList<Opponent> aliens = new ArrayList<>(); // List of aliens.
+	ArrayList<AlienBullet> alienBullets = new ArrayList<>(); // List of alien bullets.
+
 
 	/**
 	 * SpaceGame constructor.
@@ -37,10 +35,8 @@ public class SpaceGame extends GFX {
 	}
 
 	/**
-	 * 
-	 * 
+	 * Load background picture
 	 */
-
 	public void LoadImageExample() throws IOException {
 		background = ImageIO.read(new File("background.jpg"));
 
@@ -48,17 +44,13 @@ public class SpaceGame extends GFX {
 
 	/**
 	 * Draws everything on the screen.
-	 * 
 	 * @param g - The graphics window.
 	 */
 	public void draw(Graphics2D g) {
-		// Background
-
+		// Background 
 		try {
 			LoadImageExample();
-
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		g.drawImage(background, 0, 0, null);
@@ -86,12 +78,21 @@ public class SpaceGame extends GFX {
 			}
 		}
 
+		// Alien bullets
+		if (GameRules.alienBulletBool) {
+			for (int i = 0; i < alienBullets.size(); i++) {
+				alienBullets.get(i).draw(g);
+			}
+		}
+
 		// Game over text
 		if (GameRules.gameOver() == true) {
 			TextBox gameOver = new TextBox("Game Over!");
 			gameOver.setFontSize(40.0);
 			gameOver.setColor(Color.white);
 			gameOver.draw(g);
+
 		}
+
 	}
 }

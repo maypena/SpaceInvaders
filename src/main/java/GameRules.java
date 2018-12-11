@@ -1,12 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-
 import me.jjfoley.gfx.GFX;
 
 /**
@@ -17,10 +11,12 @@ public class GameRules extends GFX {
 	
 	// Our variables
 	int delay; 					// Delay variable so that bullet doesn't become a laser.
+	int delay2; 					// Delay variable so that bullet doesn't become a laser.
 	SpaceGame game; 			// Game made from the SpaceGame class.
 	static int score; 			// Score variable.
 	static boolean bulletBool;  // Boolean that alerts other classes when the spacebar is pressed.
-	static boolean moveSwitch;  // Movement switch.
+	static boolean alienBulletBool;  // Boolean that is true as long as the game is running (aliens keep shooting).
+	static boolean moveSwitch;  	 // Movement switch.
 	ArrayList<Bullet> deadBullets = new ArrayList<>();  // List of bullets to delete.
 	ArrayList<Opponent> deadAliens = new ArrayList<>(); // List of aliens to delete.
 	
@@ -35,6 +31,7 @@ public class GameRules extends GFX {
 		moveSwitch = true;
 		score = 0;
 		delay = 0;
+		delay2 = 0;
 	}
 	
 	/**
@@ -121,6 +118,19 @@ public class GameRules extends GFX {
 			this.delay = 15;
 
 		}
+		
+		// Handle alien bullet logic.
+		delay2 -= 1;
+		if (gameOver() != true && delay2 <= 0) {
+			for (int s = 0; s < 46; s += 10) {
+				int alienX = SpaceGame.aliens.get(s).getX();
+				int alienY = SpaceGame.aliens.get(s).getY();
+				alienBulletBool = true;
+				AlienBullet newAlienBullet = new AlienBullet(alienX, alienY, 2, 15);
+				this.game.alienBullets.add(newAlienBullet);
+				this.delay2 = 150;
+			}
+		}
 
 		// Handle killing of the aliens logic.
 		if (SpaceGame.aliens.size() > 0) {
@@ -139,6 +149,15 @@ public class GameRules extends GFX {
 		if (SpaceGame.aliens.size() > 0) {
 			for (Opponent alien : SpaceGame.aliens) {
 				if (SpaceGame.player.getRectangle().intersects(alien.getRectangle())) {
+					deadAliens.addAll(SpaceGame.aliens);
+				}
+			}
+		}
+		
+		// End the game when alien bullet touches player.
+		if (SpaceGame.aliens.size() > 0) {
+			for (AlienBullet alienBullet : this.game.alienBullets) {
+				if (alienBullet.getRectangle().intersects(SpaceGame.player.getRectangle())) {
 					deadAliens.addAll(SpaceGame.aliens);
 				}
 			}
