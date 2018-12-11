@@ -19,18 +19,21 @@ public class GameRules extends GFX {
 	static boolean moveSwitch; // Movement switch.
 	ArrayList<Bullet> deadBullets = new ArrayList<>(); // List of bullets to delete.
 	ArrayList<Opponent> deadAliens = new ArrayList<>(); // List of aliens to delete.
+	static int screenX = 1100; // Background width
+	static int screenY = 620; //Background height
+	
 
 	/**
 	 * Initializes variables.
 	 */
 	public GameRules() {
-		super(700, 500);
+		super(screenX, screenY);
 		game = new SpaceGame();
 		bulletBool = false;
 		moveSwitch = true;
 		score = 0;
 		delay = 0;
-		delay2 = 0;
+		delay2 = 0;	
 	}
 
 	/**
@@ -93,14 +96,15 @@ public class GameRules extends GFX {
 				alien.moveLeft();
 			}
 		}
-		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX()) >= 690) {
+		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX()) >= screenX-30) {
 			moveSwitch = false;
+			for (Opponent alien : SpaceGame.aliens) {
+				alien.moveDown();
+			}
+			
 		}
 		if (SpaceGame.aliens.size() != 0 && SpaceGame.aliens.get(0).getX() <= 10) {
 			moveSwitch = true;
-		}
-		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX() >= 690
-				|| SpaceGame.aliens.get(0).getX() <= 10)) {
 			for (Opponent alien : SpaceGame.aliens) {
 				alien.moveDown();
 			}
