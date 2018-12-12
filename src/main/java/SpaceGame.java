@@ -2,10 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import me.jjfoley.gfx.GFX;
 import me.jjfoley.gfx.TextBox;
 
@@ -20,6 +17,7 @@ public class SpaceGame extends GFX {
 	static Player player = new Player(GameRules.screenX/2, GameRules.screenY-40, 20, 20); // Creates the player.
 	static ArrayList<Opponent> aliens = new ArrayList<>(); // List of aliens.
 	ArrayList<AlienBullet> alienBullets = new ArrayList<>(); // List of alien bullets.
+	ArrayList<Shield> shields = new ArrayList<>(); //List of shields.
 
 
 	/**
@@ -34,14 +32,16 @@ public class SpaceGame extends GFX {
 		}
 	}
 
-	/**
-	 * Load background picture
-	 */
-	public void LoadImageExample() throws IOException {
-		if (background == null) {
-			background = ImageIO.read(new File("background.jpg"));
-		}
-	}
+//	/**
+//	 * Load background picture
+//	 */
+//	public void LoadImageExample() throws IOException {
+//		if (background == null) {
+//			background = ImageIO.read(new File("background.jpg"));
+//			
+//		}
+		
+//	}
 
 	/**
 	 * Draws everything on the screen.
@@ -49,12 +49,12 @@ public class SpaceGame extends GFX {
 	 */
 	public void draw(Graphics2D g) {
 		// Background 
-		try {
-			LoadImageExample();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		g.drawImage(background, 0, 0, null);
+//		try {
+//			LoadImageExample();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//  	g.drawImage(background, 0, 0, null);
 
 		// Score board
 		TextBox score = new TextBox(("Score " + GameRules.score));
@@ -84,6 +84,13 @@ public class SpaceGame extends GFX {
 			for (int i = 0; i < alienBullets.size(); i++) {
 				alienBullets.get(i).draw(g);
 			}
+		}
+		
+		// Shields
+		for (int i = 0; i < 3; i++) { // Columns
+			Shield shield = new Shield((GameRules.screenX/3 * i)+150, GameRules.screenY-120, 30, 30);
+			shields.add(shield);
+			shield.draw(g);
 		}
 
 		// Game over text

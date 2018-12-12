@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 public class SpaceInvaderCreatures {
 	static BufferedImage alien; // background image
 	static BufferedImage jj;
+	static BufferedImage shield; //shield
 	
 	/**
 	 * 
@@ -20,6 +21,7 @@ public class SpaceInvaderCreatures {
 		if (alien == null) {
 		alien = ImageIO.read(new File("alien.png"));
 		jj = ImageIO.read(new File("jj.png"));
+		shield = ImageIO.read(new File("shield2.jpg"));
 		}
 	}
 
@@ -87,5 +89,16 @@ public class SpaceInvaderCreatures {
 		g.setColor(Color.red);
 		g.fillRect(x, y, w, h);
 	}
+	
+	public static void drawShield(Graphics2D g, int x, int y, int w, int h) {
+		try {
+			LoadImageExample();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		g.drawImage(shield, x, y, null);
+	}
+	
 
 }

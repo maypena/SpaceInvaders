@@ -54,7 +54,7 @@ public class Player extends GFX {
 	 * @return true if it was able to move and false if it wasn't.
 	 */
 	public boolean moveRight() {
-		if (this.x >= 680 == true) {
+		if (this.x >= 1050 == true) {
 			return false;
 		} else {
 			this.x += 5;

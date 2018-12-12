@@ -18,10 +18,10 @@ public class GameRules extends GFX {
 	static boolean alienBulletBool; // Boolean that is true as long as the game is running (aliens keep shooting).
 	static boolean moveSwitch; // Movement switch.
 	ArrayList<Bullet> deadBullets = new ArrayList<>(); // List of bullets to delete.
+	ArrayList<AlienBullet> deadAlienBullets = new ArrayList<>(); // List of alien bullets to delete.
 	ArrayList<Opponent> deadAliens = new ArrayList<>(); // List of aliens to delete.
 	static int screenX = 1100; // Background width
-	static int screenY = 620; //Background height
-	
+	static int screenY = 620; // Background height
 
 	/**
 	 * Initializes variables.
@@ -33,7 +33,7 @@ public class GameRules extends GFX {
 		moveSwitch = true;
 		score = 0;
 		delay = 0;
-		delay2 = 0;	
+		delay2 = 0;
 	}
 
 	/**
@@ -96,12 +96,13 @@ public class GameRules extends GFX {
 				alien.moveLeft();
 			}
 		}
-		if (SpaceGame.aliens.size() != 0 && (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX()) >= screenX-30) {
+		if (SpaceGame.aliens.size() != 0
+				&& (SpaceGame.aliens.get(SpaceGame.aliens.size() - 1).getX()) >= screenX - 30) {
 			moveSwitch = false;
 			for (Opponent alien : SpaceGame.aliens) {
 				alien.moveDown();
 			}
-			
+
 		}
 		if (SpaceGame.aliens.size() != 0 && SpaceGame.aliens.get(0).getX() <= 10) {
 			moveSwitch = true;
@@ -173,14 +174,35 @@ public class GameRules extends GFX {
 			}
 		}
 
-		// Remove aliens.
-		for (Opponent alien : this.deadAliens) {
-			SpaceGame.aliens.remove(alien);
-		}
+		// Shield vs. bullet logic
+		if (SpaceGame.aliens.size() > 0) {
+			for (AlienBullet alienBullet : this.game.alienBullets) {
+				for (Bullet bullet : this.game.bullets) {
+					for (Shield shield : this.game.shields) {
+						if (alienBullet.getRectangle().intersects(shield.getRectangle())
+								|| bullet.getRectangle().intersects(shield.getRectangle())) {
+							deadBullets.add(bullet);
+							deadAlienBullets.add(alienBullet);
+						}
+					}
 
-		// Remove aliens.
-		for (Bullet bullet : this.deadBullets) {
-			this.game.bullets.remove(bullet);
+				}
+			}
+
+			// Remove aliens.
+			for (Opponent alien : this.deadAliens) {
+				SpaceGame.aliens.remove(alien);
+			}
+
+			// Remove bullets.
+			for (Bullet bullet : this.deadBullets) {
+				this.game.bullets.remove(bullet);
+			}
+			
+			// Remove alien bullets.
+			for (AlienBullet alienBullet : this.deadAlienBullets) {
+				this.game.alienBullets.remove(alienBullet);
+			}
 		}
 	}
 }
