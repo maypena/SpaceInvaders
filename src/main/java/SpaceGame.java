@@ -12,13 +12,13 @@ import me.jjfoley.gfx.TextBox;
  */
 public class SpaceGame extends GFX {
 	// Our variables
-	BufferedImage background; // background image
-	ArrayList<Bullet> bullets = new ArrayList<>(); // List of bullets.
-	static Player player = new Player(GameRules.screenX/2, GameRules.screenY-40, 20, 20); // Creates the player.
-	static ArrayList<Opponent> aliens = new ArrayList<>(); // List of aliens.
-	ArrayList<AlienBullet> alienBullets = new ArrayList<>(); // List of alien bullets.
-	ArrayList<Shield> shields = new ArrayList<>(); //List of shields.
-
+	BufferedImage background; 				// background image
+	static ArrayList<Life> lives = new ArrayList<>(); // List of lives.
+	ArrayList<Bullet> bullets = new ArrayList<>();												 // List of bullets.
+	ArrayList<Shield> shields = new ArrayList<>();
+	static ArrayList<Opponent> aliens = new ArrayList<>(); 					   					// List of aliens.
+	static ArrayList<AlienBullet> alienBullets = new ArrayList<>();									 // List of alien bullets.
+	static Player player = new Player(GameRules.screenX / 2, GameRules.screenY - 100, 20, 20); // Creates the player.
 
 	/**
 	 * SpaceGame constructor.
@@ -26,39 +26,26 @@ public class SpaceGame extends GFX {
 	public SpaceGame() {
 		for (int i = 0; i < 10; i++) { // Columns
 			for (int j = 0; j < 5; j++) { // Rows
-				Opponent alien = new Opponent(GameRules.screenX/13 * i, GameRules.screenY/10 * j, 30, 30, j == 0 );
+				Opponent alien = new Opponent(GameRules.screenX / 13 * i, GameRules.screenY / 10 * j, 30, 30, j == 0);
 				aliens.add(alien);
 			}
 		}
-	}
-
-//	/**
-//	 * Load background picture
-//	 */
-//	public void LoadImageExample() throws IOException {
-//		if (background == null) {
-//			background = ImageIO.read(new File("background.jpg"));
-//			
-//		}
+		for (int i = 0; i < 3; i++) { 
+			Life life = new Life((GameRules.screenX / 20 * i) + 10, GameRules.screenY - 600, 20, 5);
+			lives.add(life);
+		}
 		
-//	}
+	}
 
 	/**
 	 * Draws everything on the screen.
 	 * @param g - The graphics window.
 	 */
 	public void draw(Graphics2D g) {
-		// Background 
-//		try {
-//			LoadImageExample();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//  	g.drawImage(background, 0, 0, null);
 
 		// Score board
 		TextBox score = new TextBox(("Score " + GameRules.score));
-		Rectangle2D centerText = new Rectangle2D.Double(GameRules.screenX-100, 0, 100, 40);
+		Rectangle2D centerText = new Rectangle2D.Double(GameRules.screenX - 100, 0, 100, 40);
 		score.setFontSize(20.0);
 		score.setColor(Color.white);
 		score.centerInside(centerText);
@@ -85,21 +72,26 @@ public class SpaceGame extends GFX {
 				alienBullets.get(i).draw(g);
 			}
 		}
-		
+
 		// Shields
-		for (int i = 0; i < 3; i++) { // Columns
-			Shield shield = new Shield((GameRules.screenX/3 * i)+150, GameRules.screenY-120, 30, 30);
+		for (int i = 0; i < 3; i++) { 
+			Shield shield = new Shield((GameRules.screenX / 3 * i) + 120, GameRules.screenY - 200, 30, 30);
 			shields.add(shield);
 			shield.draw(g);
+		}
+		
+		// Lives
+		for (int i = 0; i < lives.size(); i++) {
+			lives.get(i).draw(g);
 		}
 
 		// Game over text
 		if (GameRules.gameOver() == true) {
 			TextBox gameOver = new TextBox(" GAME OVER! ");
-			Rectangle2D centerTextGO = new Rectangle2D.Double(GameRules.screenX/2, GameRules.screenY/2, 100, 40);
+			Rectangle2D centerTextGO = new Rectangle2D.Double(GameRules.screenX / 2, GameRules.screenY / 2, 100, 40);
 			gameOver.setFontSize(100.0);
 			gameOver.setColor(Color.white);
-			score.centerInside(centerTextGO);
+			gameOver.centerInside(centerTextGO);
 			gameOver.draw(g);
 
 		}

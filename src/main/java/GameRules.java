@@ -12,14 +12,16 @@ public class GameRules extends GFX {
 	// Our variables
 	int delay; // Delay variable so that bullet doesn't become a laser.
 	int delay2; // Delay variable so that bullet doesn't become a laser.
+	int lives; // Count the lives of the player.
 	SpaceGame game; // Game made from the SpaceGame class.
 	static int score; // Score variable.
 	static boolean bulletBool; // Boolean that alerts other classes when the spacebar is pressed.
 	static boolean alienBulletBool; // Boolean that is true as long as the game is running (aliens keep shooting).
 	static boolean moveSwitch; // Movement switch.
 	ArrayList<Bullet> deadBullets = new ArrayList<>(); // List of bullets to delete.
-	ArrayList<AlienBullet> deadAlienBullets = new ArrayList<>(); // List of alien bullets to delete.
+	ArrayList<Life> coffins = new ArrayList<>(); // List of bullets to delete.
 	ArrayList<Opponent> deadAliens = new ArrayList<>(); // List of aliens to delete.
+	ArrayList<AlienBullet> deadAlienBullets = new ArrayList<>(); // List of alien bullets to delete.
 	static int screenX = 1100; // Background width
 	static int screenY = 620; // Background height
 
@@ -34,6 +36,7 @@ public class GameRules extends GFX {
 		score = 0;
 		delay = 0;
 		delay2 = 0;
+		lives = 3;
 	}
 
 	/**
@@ -137,7 +140,7 @@ public class GameRules extends GFX {
 					int alienY = alien.getY();
 					alienBulletBool = true;
 					AlienBullet newAlienBullet = new AlienBullet(alienX, alienY, 2, 15);
-					this.game.alienBullets.add(newAlienBullet);
+					SpaceGame.alienBullets.add(newAlienBullet);
 					this.delay2 = 150;
 				}
 			}
@@ -165,27 +168,41 @@ public class GameRules extends GFX {
 			}
 		}
 
-		// End the game when alien bullet touches player.
+		// Take away life / end game when alien bullet touches player.
 		if (SpaceGame.aliens.size() > 0) {
-			for (AlienBullet alienBullet : this.game.alienBullets) {
+			for (AlienBullet alienBullet : SpaceGame.alienBullets) {
 				if (alienBullet.getRectangle().intersects(SpaceGame.player.getRectangle())) {
-					deadAliens.addAll(SpaceGame.aliens);
+					this.deadAlienBullets.add(alienBullet);
+					System.out.println( "I've been hit! ");
+					if (lives > 1) {
+						coffins.add(SpaceGame.lives.get(SpaceGame.lives.size()-1));
+						lives--;
+					} else {
+						coffins.add(SpaceGame.lives.get(SpaceGame.lives.size()-1));
+						deadAliens.addAll(SpaceGame.aliens);
+					}
 				}
 			}
 		}
 
-		// Shield vs. bullet logic
+		// Shield versus alien bullet logic
 		if (SpaceGame.aliens.size() > 0) {
-			for (AlienBullet alienBullet : this.game.alienBullets) {
+			for (AlienBullet alienBullet : SpaceGame.alienBullets) {
+				for (Shield shield : this.game.shields) {
+					if (alienBullet.getRectangle().intersects(shield.getRectangle())) {
+						deadAlienBullets.add(alienBullet);
+					}
+				}
+			}
+
+			// Shield versus player bullet logic
+			if (SpaceGame.aliens.size() > 0) {
 				for (Bullet bullet : this.game.bullets) {
 					for (Shield shield : this.game.shields) {
-						if (alienBullet.getRectangle().intersects(shield.getRectangle())
-								|| bullet.getRectangle().intersects(shield.getRectangle())) {
+						if (bullet.getRectangle().intersects(shield.getRectangle())) {
 							deadBullets.add(bullet);
-							deadAlienBullets.add(alienBullet);
 						}
 					}
-
 				}
 			}
 
@@ -198,10 +215,15 @@ public class GameRules extends GFX {
 			for (Bullet bullet : this.deadBullets) {
 				this.game.bullets.remove(bullet);
 			}
-			
+
 			// Remove alien bullets.
 			for (AlienBullet alienBullet : this.deadAlienBullets) {
-				this.game.alienBullets.remove(alienBullet);
+				SpaceGame.alienBullets.remove(alienBullet);
+			}
+			
+			// Remove life boxes.
+			for (Life life : this.coffins) {
+				SpaceGame.lives.remove(life);
 			}
 		}
 	}
