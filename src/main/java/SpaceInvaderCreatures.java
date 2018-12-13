@@ -31,7 +31,7 @@ public class SpaceInvaderCreatures {
 		alien = ImageIO.read(new File("alien.png"));
 		spaceship = ImageIO.read(new File("spaceship.png"));
 		shield = ImageIO.read(new File("shield.png"));
-		startButton = ImageIO.read(new File("startButton.jpg"));
+		startButton = ImageIO.read(new File("startButton.png"));
 		}
 	}
 	

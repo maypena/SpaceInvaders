@@ -40,7 +40,7 @@ public class GameRules extends GFX {
 	@Override
 	public void draw(Graphics2D g) {
 		if (menu) {
-			SpaceInvaderCreatures.drawStartButton(g, screenX/2, screenY/2);
+			SpaceInvaderCreatures.drawStartButton(g, screenX/2-300, screenY/2-100);
 			if (processClick() != null) {
 				menu = false;
 			}

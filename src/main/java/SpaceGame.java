@@ -47,7 +47,7 @@ public class SpaceGame extends GFX {
 
 		// Score board
 		TextBox score = new TextBox(("Score " + GameRules.score));
-		Rectangle2D centerText = new Rectangle2D.Double(GameRules.screenX - 110, 0, 100, 40);
+		Rectangle2D centerText = new Rectangle2D.Double(GameRules.screenX - 200, 0, 100, 40);
 		score.setFontSize(30.0);
 		score.setColor(Color.white);
 		score.centerInside(centerText);
