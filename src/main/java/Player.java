@@ -20,11 +20,11 @@ public class Player extends GFX {
 	 * @param w - width of rectangle.
 	 * @param h - height of rectangle.
 	 */
-	public Player(int x, int y, int w, int h) {
+	public Player(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.w = w;
-		this.h = h;
+		this.w = SpaceInvaderCreatures.spaceship.getWidth();
+		this.h = SpaceInvaderCreatures.spaceship.getHeight();
 	}
 
 	/**
@@ -32,7 +32,7 @@ public class Player extends GFX {
 	 * @param g - Graphics window
 	 */
 	public void draw(Graphics2D g) {
-		SpaceInvaderCreatures.drawPlayer(g, x, y, w, h);
+		SpaceInvaderCreatures.drawPlayer(g, x, y);
 	}
 
 
